@@ -1,5 +1,7 @@
 import Head from 'next/head';
-import { getMovies } from '@/lib/tmdb';
+import { MOVIE_LIST, getMovies } from '@/lib/tmdb';
+import TopMenu from '@/components/top-menu';
+import MovieItem from '@/components/movie-item';
 
 export default function Home({ movies }) {
   return (
@@ -10,15 +12,20 @@ export default function Home({ movies }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
-        <p>{JSON.stringify(movies)}</p>
-      </main>
+      <div className="bg-moovie-background">
+        <TopMenu />
+        <main className="relative">
+          <div className="grid grid-cols-5 gap-x-6 gap-y-8 px-32">
+            {movies.results.map((movie) => <MovieItem key={movie.title} {...movie} />)}
+          </div>
+        </main>
+      </div>
     </>
   );
 }
 
 export async function getServerSideProps() {
-  const movies = await getMovies();
+  const movies = await getMovies(MOVIE_LIST.RATE_ASC);
 
   return {
     props: {

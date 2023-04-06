@@ -23,3 +23,8 @@ export const getMovies = async (sortBy = MOVIE_LIST.POPULAR_ASC, page = 1) => {
 
   return movies;
 };
+
+export const getImage = (path, width = 500) => {
+  if (!path) return '/poster.png';
+  return `https://image.tmdb.org/t/p/w${width}/${path}`;
+};
