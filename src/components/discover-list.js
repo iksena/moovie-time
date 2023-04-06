@@ -19,7 +19,7 @@ function SortLabel({ children, href, isSelected }) {
 
 function DiscoverList({ movies }) {
   return (
-    <div className="px-32 pt-20">
+    <div className="px-32 pt-20 pb-32">
       <div className="w-32 h-1 top-0 mb-3 bg-moovie-red" />
       <div className="flex flex-row justify-between mb-12 mt-0.5">
         <span className="font-semibold text-2xl text-neutral-200">Discover Movies</span>
