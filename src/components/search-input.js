@@ -37,7 +37,7 @@ function SearchInput() {
         value={inputValue}
         onChange={handleInputChange}
         onBlur={() => setAutocompleteOptions([])}
-        placeholder="Search"
+        placeholder="Find movie"
         className="bg-black/10 text-neutral-200 font-normal text-base py-2 px-4 rounded-md input-width"
       />
       {autocompleteOptions.length > 0 && (

@@ -4,14 +4,14 @@ import SearchInput from './search-input';
 
 function TopMenu() {
   return (
-    <nav className="sticky top-0 px-32 bg-white/5 z-50">
-      <div className="flex flex-row justify-between">
-        <div className="text-red-200"><Link href="/">Logo</Link></div>
+    <nav className="sticky top-0 px-32 bg-white/5 z-50 py-3">
+      <div className="flex flex-row justify-between items-center">
+        <div className="font-semibold text-sm text-neutral-200"><Link href="/">Logo</Link></div>
         <div><SearchInput /></div>
-        <div className="bg-red-200">Categories</div>
-        <div className="bg-yellow-200">Movies</div>
-        <div className="bg-red-200">TV Shows</div>
-        <div className="bg-yellow-200">Login</div>
+        <div className="font-semibold text-sm text-neutral-200">CATEGORIES</div>
+        <div className="font-semibold text-sm text-neutral-200">MOVIES</div>
+        <div className="font-semibold text-sm text-neutral-200">TV SHOWS</div>
+        <div className="font-semibold text-sm text-neutral-200">LOGIN</div>
       </div>
     </nav>
   );

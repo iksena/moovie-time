@@ -1,11 +1,12 @@
 import Head from 'next/head';
-import { getLibraries } from '@/lib/tmdb';
-import TopMenu from '@/components/top-menu';
-import MovieItem from '@/components/movie-item';
-import Footer from '@/components/footer';
-import constants from '@/lib/constants';
-import TMDBContext from '@/contexts/tmdb-context';
 import { useMemo } from 'react';
+
+import { getLibraries } from '@/lib/tmdb';
+import constants from '@/lib/constants';
+import TopMenu from '@/components/top-menu';
+import Footer from '@/components/footer';
+import TMDBContext from '@/contexts/tmdb-context';
+import DiscoverList from '@/components/discover-list';
 
 export default function Home({ movies, baseUrl, apiKey }) {
   const tmdb = useMemo(() => ({ apiKey, baseUrl }), [baseUrl, apiKey]);
@@ -20,10 +21,9 @@ export default function Home({ movies, baseUrl, apiKey }) {
       </Head>
       <div className="bg-moovie-background">
         <TopMenu baseUrl={baseUrl} />
-        <main className="relative my-28">
-          <div className="grid grid-cols-5 gap-x-6 gap-y-8 px-32">
-            {movies.results.map((movie) => <MovieItem key={movie.title} {...movie} />)}
-          </div>
+        <main className="relative">
+          <div className="absolute top-10 bg-white/5 h-96 w-full" />
+          <DiscoverList movies={movies} />
         </main>
         <footer>
           <Footer />
