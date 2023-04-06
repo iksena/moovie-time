@@ -1,6 +1,7 @@
 import Head from 'next/head';
+import { getMovies } from '@/lib/tmdb';
 
-export default function Home() {
+export default function Home({ movies }) {
   return (
     <>
       <Head>
@@ -10,8 +11,18 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <div />
+        <p>{JSON.stringify(movies)}</p>
       </main>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const movies = await getMovies();
+
+  return {
+    props: {
+      movies,
+    },
+  };
 }
