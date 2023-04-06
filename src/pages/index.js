@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { MOVIE_LIST, getMovies } from '@/lib/tmdb';
 import TopMenu from '@/components/top-menu';
 import MovieItem from '@/components/movie-item';
+import Footer from '@/components/footer';
 
 export default function Home({ movies }) {
   return (
@@ -14,18 +15,21 @@ export default function Home({ movies }) {
       </Head>
       <div className="bg-moovie-background">
         <TopMenu />
-        <main className="relative">
+        <main className="relative my-28">
           <div className="grid grid-cols-5 gap-x-6 gap-y-8 px-32">
             {movies.results.map((movie) => <MovieItem key={movie.title} {...movie} />)}
           </div>
         </main>
+        <footer>
+          <Footer />
+        </footer>
       </div>
     </>
   );
 }
 
 export async function getServerSideProps() {
-  const movies = await getMovies(MOVIE_LIST.RATE_ASC);
+  const movies = await getMovies(MOVIE_LIST.POPULAR_ASC);
 
   return {
     props: {
