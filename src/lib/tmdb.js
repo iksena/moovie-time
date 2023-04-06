@@ -1,6 +1,11 @@
 import constants from './constants';
 import fetcher from './fetcher';
 
+export const LIBRARY_TYPE = {
+  MOVIE: 'movie',
+  TV: 'tv',
+};
+
 export const MOVIE_LIST = {
   POPULAR_ASC: 'popularity.asc',
   POPULAR_DESC: 'popularity.desc',
@@ -10,15 +15,37 @@ export const MOVIE_LIST = {
   RATE_DESC: 'vote_average.desc',
 };
 
-export const getMovies = async (sortBy = MOVIE_LIST.POPULAR_ASC, page = 1) => {
+export const getLibraries = async (
+  page = 1,
+  sortBy = MOVIE_LIST.POPULAR_ASC,
+  type = LIBRARY_TYPE.MOVIE,
+) => {
   const params = new URLSearchParams({
     api_key: constants.TMDB_API_KEY,
     sort_by: sortBy,
     page,
     language: 'en-US',
-    include_adult: true,
   });
-  const url = `${constants.TMDB_BASE_URL}/discover/movie/?${params}`;
+  const url = `${constants.TMDB_BASE_URL}/discover/${type}?${params}`;
+  const response = await fetcher(url);
+
+  return response;
+};
+
+export const searchLibraries = async ({
+  query,
+  baseUrl = constants.TMDB_BASE_URL,
+  apiKey = constants.TMDB_API_KEY,
+  page = 1,
+  type = LIBRARY_TYPE.MOVIE,
+}) => {
+  const params = new URLSearchParams({
+    api_key: apiKey,
+    query,
+    page,
+    language: 'en-US',
+  });
+  const url = `${baseUrl}/search/${type}?${params}`;
   const movies = await fetcher(url);
 
   return movies;

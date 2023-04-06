@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import format from 'date-fns/format';
 
 import { getImage } from '@/lib/tmdb';
 
@@ -23,7 +24,7 @@ function MovieItem({
       </div>
       <div className="flex flex-col whitespace-pre-wrap break-words">
         <span className="text-base text-neutral-200 font-semibold mt-3">{title}</span>
-        <span className="text-sm text-moovie-subtitle font-normal mt-1">{release_date}</span>
+        <span className="text-sm text-moovie-subtitle font-normal mt-1">{format(new Date(release_date || 0), 'yyyy')}</span>
       </div>
     </div>
   );
