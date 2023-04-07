@@ -1,18 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function Dropdown() {
+function Dropdown({ options, onSelect, children }) {
+  const [optionText, setOptionText] = useState(children);
+  const [optionsShown, showOptions] = useState(false);
+  const handleSelect = (value, option) => () => {
+    onSelect(value);
+    setOptionText(option);
+    showOptions(false);
+  };
+
   return (
-    <div className="relative p-4">
-      <select className="appearance-none bg-white border border-gray-400 py-2 px-4 pr-8 rounded shadow text-gray-700 w-full cursor-pointer outline-none">
-        <option>Select an option</option>
-        <option>Option 1</option>
-        <option>Option 2</option>
-        <option>Option 3</option>
-      </select>
-
-      <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-        <div className="border-t-4 border-r-4 border-b-0 border-l-4 h-4 w-4 inline-block transform rotate-45 -mt-1" />
-      </div>
+    <div className="relative">
+      <button
+        type="button"
+        className="text-left px-4 py-3 rounded bg-[#2F363F] text-neutral-200 w-full cursor-pointer"
+        onClick={() => showOptions((prevShown) => !prevShown)}
+      >
+        {optionText}
+      </button>
+      {(options?.length > 0 && optionsShown) && (
+        <div className="absolute z-10 w-64 mt-2 py-2 rounded-md shadow-lg bg-[#111419] flex flex-col">
+          {options.map(({ value, option }) => (
+            <button
+              type="button"
+              className="px-4 py-2 cursor-pointer hover:bg-[#2F363F] text-left text-neutral-200"
+              key={value}
+              onClick={handleSelect(value, option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

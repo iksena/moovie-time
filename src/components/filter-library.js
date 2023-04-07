@@ -1,3 +1,5 @@
+import { LIBRARY_SORT } from '@/lib/tmdb';
+import { useRouter } from 'next/router';
 import Dropdown from './dropdown';
 
 function Checkbox({ children, isChecked, onCheck }) {
@@ -17,11 +19,21 @@ function Checkbox({ children, isChecked, onCheck }) {
   );
 }
 function FilterLibrary() {
+  const router = useRouter();
+  const [currentPath] = router.asPath.split('?');
+
   return (
     <div className="rounded-lg bg-neutral-800">
       <div className="text-neutral-200 font-semibold text-base text-left p-4">Sort Result By</div>
       <div className="border-[1px] border-white/5 w-full" />
-      <Dropdown />
+      <div className="p-4">
+        <Dropdown
+          options={LIBRARY_SORT}
+          onSelect={(option) => router.push(`${currentPath}?sortBy=${option}`)}
+        >
+          Popularity
+        </Dropdown>
+      </div>
       <div className="border-[1px] border-white/5 w-full" />
       <div className="text-neutral-200 font-semibold text-base text-left p-4">Genres</div>
       <div className="border-[1px] border-white/5 w-full" />

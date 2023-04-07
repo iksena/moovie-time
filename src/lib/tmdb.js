@@ -9,11 +9,20 @@ export const LIBRARY_TYPE = {
 export const MOVIE_LIST = {
   POPULAR_ASC: 'popularity.asc',
   POPULAR_DESC: 'popularity.desc',
-  DATE_ASC: 'release_date.desc',
+  DATE_ASC: 'release_date.asc',
   DATE_DESC: 'release_date.desc',
-  RATE_ASC: 'vote_average.desc',
+  RATE_ASC: 'vote_average.asc',
   RATE_DESC: 'vote_average.desc',
 };
+
+export const LIBRARY_SORT = [
+  { option: 'Popularity Ascending', value: MOVIE_LIST.POPULAR_ASC },
+  { option: 'Popularity Descending', value: MOVIE_LIST.POPULAR_DESC },
+  { option: 'Release Date Ascending', value: MOVIE_LIST.DATE_ASC },
+  { option: 'Release Date Descending', value: MOVIE_LIST.DATE_DESC },
+  { option: 'Rating Ascending', value: MOVIE_LIST.RATE_ASC },
+  { option: 'Rating Descending', value: MOVIE_LIST.RATE_DESC },
+];
 
 export const getLibraries = async (
   page = 1,
