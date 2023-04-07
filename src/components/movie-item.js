@@ -25,7 +25,7 @@ function PosterHover({
     <div className="absolute inset-0 flex flex-col justify-around items-center bg-black/80">
       <span className="text-neutral-200 font-semibold text-2xl">{vote_average}</span>
       <span className="text-neutral-200 font-semibold text-lg">{genre}</span>
-      <ViewButton href={`/movies/${id}`}>VIEW</ViewButton>
+      <ViewButton href={`/library/movie/${id}`}>VIEW</ViewButton>
     </div>
   );
 }
