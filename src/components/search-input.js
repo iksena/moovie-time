@@ -1,6 +1,7 @@
+import React, { useContext, useState } from 'react';
+
 import TMDBContext from '@/contexts/tmdb-context';
 import { searchLibraries } from '@/lib/tmdb';
-import React, { useContext, useState } from 'react';
 
 const _handleSearch = async (query, setResults, tmdb) => {
   setTimeout(async () => {
@@ -36,7 +37,6 @@ function SearchInput() {
         type="text"
         value={inputValue}
         onChange={handleInputChange}
-        onBlur={() => setAutocompleteOptions([])}
         placeholder="Find movie"
         className="bg-black/10 text-neutral-200 font-normal text-base py-2 px-4 rounded-md input-width"
       />
@@ -45,7 +45,7 @@ function SearchInput() {
           {autocompleteOptions.map(({ id, title }) => (
             <button
               type="button"
-              className="px-4 py-2 cursor-pointer hover:bg-neutral-200 text-left"
+              className="px-4 py-2 cursor-pointer hover:bg-black/10 text-left text-neutral-200"
               key={id}
               onClick={() => handleOptionSelect(title)}
             >

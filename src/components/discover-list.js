@@ -24,7 +24,7 @@ function DiscoverList({ movies }) {
       <div className="flex flex-row justify-between mb-12 mt-0.5">
         <span className="font-semibold text-2xl text-neutral-200">Discover Movies</span>
         <div className="flex">
-          <SortLabel href={`/?sortBy=${MOVIE_LIST.POPULAR_ASC}`}>Popular</SortLabel>
+          <SortLabel href={`/?sortBy=${MOVIE_LIST.POPULAR_DESC}`}>Popular</SortLabel>
           <SortLabel href={`/?sortBy=${MOVIE_LIST.DATE_DESC}`}>Release Date</SortLabel>
         </div>
       </div>

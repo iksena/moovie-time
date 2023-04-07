@@ -17,7 +17,7 @@ export const MOVIE_LIST = {
 
 export const getLibraries = async (
   page = 1,
-  sortBy = MOVIE_LIST.POPULAR_ASC,
+  sortBy = MOVIE_LIST.POPULAR_DESC,
   type = LIBRARY_TYPE.MOVIE,
 ) => {
   const params = new URLSearchParams({
