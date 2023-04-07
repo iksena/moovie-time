@@ -1,20 +1,21 @@
 import Link from 'next/link';
 
+import { LIBRARY_GENRES } from '@/lib/tmdb';
 import SearchInput from './search-input';
 import MenuItemWithChild from './menu-item-with-child';
 
 const categoryMenuChildren = [
-  { title: 'ACTION', url: '/action' },
-  { title: 'ADVENTURE', url: '/ADVENTURE' },
-  { title: 'ANIMATION', url: '/ANIMATION' },
-  { title: 'COMEDY', url: '/COMEDY' },
-  { title: 'CRIME', url: '/CRIME' },
-  { title: 'DOCUMENTARY', url: '/DOCUMENTARY' },
-  { title: 'DRAMA', url: '/DRAMA' },
-  { title: 'FAMILY', url: '/FAMILY' },
-  { title: 'FANTASY', url: '/FANTASY' },
-  { title: 'HISTORY', url: '/HISTORY' },
-  { title: 'HORROR', url: '/HORROR' },
+  { title: 'ACTION', url: `/library/movie?genre=${LIBRARY_GENRES.action.value}` },
+  { title: 'ADVENTURE', url: `/library/movie?genre=${LIBRARY_GENRES.adventure.value}` },
+  { title: 'ANIMATION', url: `/library/movie?genre=${LIBRARY_GENRES.animation.value}` },
+  { title: 'COMEDY', url: `/library/movie?genre=${LIBRARY_GENRES.comedy.value}` },
+  { title: 'CRIME', url: `/library/movie?genre=${LIBRARY_GENRES.crime.value}` },
+  { title: 'DOCUMENTARY', url: `/library/movie?genre=${LIBRARY_GENRES.documentary.value}` },
+  { title: 'DRAMA', url: `/library/movie?genre=${LIBRARY_GENRES.drama.value}` },
+  { title: 'FAMILY', url: `/library/movie?genre=${LIBRARY_GENRES.family.value}` },
+  { title: 'FANTASY', url: `/library/movie?genre=${LIBRARY_GENRES.fantasy.value}` },
+  { title: 'HISTORY', url: `/library/movie?genre=${LIBRARY_GENRES.history.value}` },
+  { title: 'HORROR', url: `/library/movie?genre=${LIBRARY_GENRES.horror.value}` },
 ];
 
 function TopMenu() {

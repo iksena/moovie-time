@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import format from 'date-fns/format';
 
-import { getImage } from '@/lib/tmdb';
+import { LIBRARY_GENRES, getImage } from '@/lib/tmdb';
 
 function ViewButton({ children, href }) {
   return (
@@ -32,9 +32,12 @@ function PosterHover({
 
 function MovieItem(props) {
   const {
-    poster_path, vote_average, title, release_date,
+    poster_path, vote_average, title, release_date, genre_ids,
   } = props;
   const [hover, setHover] = useState(false);
+  const genre = Object.values(LIBRARY_GENRES).find(
+    (item) => genre_ids.includes(item.movieId) || genre_ids.includes(item.tvId),
+  )?.name ?? '';
 
   return (
     <div
@@ -55,7 +58,7 @@ function MovieItem(props) {
           <span className="absolute top-0 right-0 bg-neutral-800/80 text-neutral-200 font-bold p-1">
             {vote_average}
           </span>
-          {hover && <PosterHover {...props} genre="Action" />}
+          {hover && <PosterHover {...props} genre={genre} />}
         </div>
         <div className="flex flex-col whitespace-pre-wrap break-words">
           <span className="text-base text-neutral-200 font-semibold mt-3">{title}</span>

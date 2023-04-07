@@ -60,16 +60,10 @@ export default function Libraries({
   );
 }
 
-export async function getServerSideProps({ query }) {
-  const { paths, sortBy = '', genre } = query;
-  const [type, id = false] = paths;
-  const baseUrl = constants.TMDB_BASE_URL;
-  const apiKey = constants.TMDB_API_KEY;
-
-  let genreString = '';
-  if (genre) {
-    const currentGenres = castArray(genre);
-    genreString = currentGenres.map(
+const _constructGenreString = (genreQuery, type) => {
+  if (genreQuery) {
+    const currentGenres = castArray(genreQuery);
+    return currentGenres.map(
       (genreValue) => (
         (type === LIBRARY_TYPE.TV
           ? LIBRARY_GENRES[genreValue]?.tvId
@@ -77,6 +71,16 @@ export async function getServerSideProps({ query }) {
       ),
     ).join(',');
   }
+  return '';
+};
+
+export async function getServerSideProps({ query }) {
+  const { paths, sortBy = '', genre } = query;
+  const [type, id = false] = paths;
+  const baseUrl = constants.TMDB_BASE_URL;
+  const apiKey = constants.TMDB_API_KEY;
+
+  const genreString = _constructGenreString(genre, type);
   const movies = await getLibraries(1, sortBy, type, genreString);
 
   return {
