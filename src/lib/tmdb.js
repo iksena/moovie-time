@@ -24,16 +24,87 @@ export const LIBRARY_SORT = [
   { option: 'Rating Descending', value: MOVIE_LIST.RATE_DESC },
 ];
 
+export const LIBRARY_GENRES = {
+  action: {
+    movieId: 28,
+    tvId: 10759,
+    name: 'Action',
+    value: 'action',
+  },
+  adventure: {
+    movieId: 12,
+    tvId: 10759,
+    name: 'Adventure',
+    value: 'adventure',
+  },
+  animation: {
+    movieId: 16,
+    tvId: 16,
+    name: 'Animation',
+    value: 'animation',
+  },
+  comedy: {
+    movieId: 35,
+    tvId: 35,
+    name: 'Comedy',
+    value: 'comedy',
+  },
+  crime: {
+    movieId: 80,
+    tvId: 80,
+    name: 'Crime',
+    value: 'crime',
+  },
+  documentary: {
+    movieId: 99,
+    tvId: 99,
+    name: 'Documentary',
+    value: 'documentary',
+  },
+  drama: {
+    movieId: 18,
+    tvId: 18,
+    name: 'Drama',
+    value: 'drama',
+  },
+  family: {
+    movieId: 10751,
+    tvId: 10751,
+    name: 'Family',
+    value: 'family',
+  },
+  fantasy: {
+    movieId: 14,
+    tvId: 10765,
+    name: 'Fantasy',
+    value: 'fantasy',
+  },
+  history: {
+    movieId: 36,
+    tvId: 10768,
+    name: 'History',
+    value: 'history',
+  },
+  horror: {
+    movieId: 27,
+    tvId: 10766,
+    name: 'Horror',
+    value: 'horror',
+  },
+};
+
 export const getLibraries = async (
   page = 1,
   sortBy = MOVIE_LIST.POPULAR_DESC,
   type = LIBRARY_TYPE.MOVIE,
+  withGenres = '',
 ) => {
   const params = new URLSearchParams({
     api_key: constants.TMDB_API_KEY,
     sort_by: sortBy,
     page,
     language: 'en-US',
+    with_genres: withGenres,
   });
   const url = `${constants.TMDB_BASE_URL}/discover/${type}?${params}`;
   const response = await fetcher(url);

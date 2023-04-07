@@ -1,13 +1,14 @@
 import Head from 'next/head';
 import { useMemo } from 'react';
 
-import { getLibraries } from '@/lib/tmdb';
+import { LIBRARY_GENRES, LIBRARY_TYPE, getLibraries } from '@/lib/tmdb';
 import constants from '@/lib/constants';
 import TopMenu from '@/components/top-menu';
 import Footer from '@/components/footer';
 import TMDBContext from '@/contexts/tmdb-context';
 import MovieGrid from '@/components/movie-grid';
 import FilterLibrary from '@/components/filter-library';
+import { castArray } from '@/lib/utils';
 
 function Title({ type }) {
   const title = type === 'tv' ? 'TVs' : 'Movies';
@@ -49,7 +50,6 @@ export default function Libraries({
         <main className="relative">
           <div className="absolute top-0 bg-white/5 h-80 w-full" />
           <Title type={type} />
-          {/* <MovieGrid movies={movies} /> */}
           <Body movies={movies} />
         </main>
         <footer>
@@ -61,11 +61,23 @@ export default function Libraries({
 }
 
 export async function getServerSideProps({ query }) {
-  const { paths, sortBy = '' } = query;
+  const { paths, sortBy = '', genre } = query;
   const [type, id = false] = paths;
   const baseUrl = constants.TMDB_BASE_URL;
   const apiKey = constants.TMDB_API_KEY;
-  const movies = await getLibraries(1, sortBy, type);
+
+  let genreString = '';
+  if (genre) {
+    const currentGenres = castArray(genre);
+    genreString = currentGenres.map(
+      (genreValue) => (
+        (type === LIBRARY_TYPE.TV
+          ? LIBRARY_GENRES[genreValue]?.tvId
+          : LIBRARY_GENRES[genreValue]?.movieId) ?? ''
+      ),
+    ).join(',');
+  }
+  const movies = await getLibraries(1, sortBy, type, genreString);
 
   return {
     props: {

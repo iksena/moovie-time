@@ -1,5 +1,7 @@
-import { LIBRARY_SORT } from '@/lib/tmdb';
 import { useRouter } from 'next/router';
+
+import { LIBRARY_GENRES, LIBRARY_SORT } from '@/lib/tmdb';
+import { arrayToQuery, castArray } from '@/lib/utils';
 import Dropdown from './dropdown';
 
 function Checkbox({ children, isChecked, onCheck }) {
@@ -18,9 +20,27 @@ function Checkbox({ children, isChecked, onCheck }) {
     </div>
   );
 }
+
 function FilterLibrary() {
   const router = useRouter();
   const [currentPath] = router.asPath.split('?');
+  const { genre, sortBy } = router.query;
+
+  const handleCheckGenre = (genreValue) => (event) => {
+    const isChecked = event.target.checked;
+    const path = sortBy ? `${currentPath}?sortBy=${sortBy}&` : `${currentPath}?`;
+    if (!genre && isChecked) {
+      return router.push(`${path}genre=${genreValue}`);
+    }
+
+    const currentGenres = castArray(genre);
+    if (isChecked) {
+      currentGenres.push(genreValue);
+      return router.push(`${path}${arrayToQuery(currentGenres, 'genre')}`);
+    }
+    const selectedGenres = currentGenres.filter((value) => value !== genreValue);
+    return router.push(`${path}${arrayToQuery(selectedGenres, 'genre')}`);
+  };
 
   return (
     <div className="rounded-lg bg-neutral-800">
@@ -37,7 +57,15 @@ function FilterLibrary() {
       <div className="border-[1px] border-white/5 w-full" />
       <div className="text-neutral-200 font-semibold text-base text-left p-4">Genres</div>
       <div className="border-[1px] border-white/5 w-full" />
-      <Checkbox>Action</Checkbox>
+      {Object.values(LIBRARY_GENRES).map((genreItem) => (
+        <Checkbox
+          key={genreItem.movieId}
+          onCheck={handleCheckGenre(genreItem.value)}
+          isChecked={castArray(genre).includes(genreItem.value)}
+        >
+          {genreItem.name}
+        </Checkbox>
+      ))}
     </div>
   );
 }
