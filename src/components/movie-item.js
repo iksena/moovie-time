@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import format from 'date-fns/format';
 
 import { LIBRARY_GENRES, LIBRARY_TYPE, getImage } from '@/lib/tmdb';
+import { formatYear } from '@/lib/utils';
 
 function ViewButton({ children, href }) {
   return (
@@ -42,7 +42,7 @@ function PosterHover({
 
 function MovieItem(props) {
   const {
-    poster_path, vote_average, title, release_date, genre_ids, name,
+    poster_path, vote_average, title, release_date, genre_ids, name, first_air_date,
   } = props;
   const [hover, setHover] = useState(false);
   const genre = Object.values(LIBRARY_GENRES).find(
@@ -72,7 +72,7 @@ function MovieItem(props) {
         </div>
         <div className="flex flex-col whitespace-pre-wrap break-words">
           <span className="text-base text-neutral-200 font-semibold mt-3">{title ?? name}</span>
-          <span className="text-sm text-moovie-subtitle font-normal mt-1">{format(new Date(release_date || 0), 'yyyy')}</span>
+          <span className="text-sm text-moovie-subtitle font-normal mt-1">{formatYear(release_date || first_air_date)}</span>
         </div>
       </div>
     </div>

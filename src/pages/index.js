@@ -7,6 +7,7 @@ import TopMenu from '@/components/top-menu';
 import Footer from '@/components/footer';
 import TMDBContext from '@/contexts/tmdb-context';
 import DiscoverList from '@/components/discover-list';
+import Carousel from '@/components/carousel';
 
 export default function Home({ movies, baseUrl, apiKey }) {
   const tmdb = useMemo(() => ({ apiKey, baseUrl }), [baseUrl, apiKey]);
@@ -21,8 +22,8 @@ export default function Home({ movies, baseUrl, apiKey }) {
       </Head>
       <div className="bg-moovie-background">
         <TopMenu baseUrl={baseUrl} />
-        <main className="relative">
-          <div className="absolute top-10 bg-white/5 h-96 w-full" />
+        <main className="flex flex-col">
+          <Carousel movies={movies} />
           <DiscoverList movies={movies} />
         </main>
         <footer>

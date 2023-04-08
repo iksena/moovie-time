@@ -57,7 +57,7 @@ function Detail({ movieDetail }) {
         height={330}
       />
       <div className="ml-8 mt-5">
-        <h2 className="font-medium text-2xl text-neutral-200">{formatYear(movieDetail.release_date)}</h2>
+        <h2 className="font-medium text-2xl text-neutral-200">{formatYear(movieDetail.release_date || movieDetail.first_air_date)}</h2>
         <h1 className="font-semibold text-4xl text-neutral-200 mt-1">{movieDetail.title ?? movieDetail.name}</h1>
         <span className="font-medium text-neutral-200 mt-1">{genres}</span>
         <Properties {...movieDetail} />
