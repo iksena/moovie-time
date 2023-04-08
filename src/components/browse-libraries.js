@@ -30,7 +30,7 @@ function BrowseLibraries({ movies, type }) {
         <Title title={title} />
         <div className="flex flex-row px-32 relative">
           <div className="sticky left-0 top-0 basis-1/4 mr-8"><FilterLibrary /></div>
-          <div className="basis-3/4"><MovieGrid movies={movies} col={4} /></div>
+          <div className="basis-3/4"><MovieGrid movies={movies} col={4} type={type} /></div>
         </div>
       </main>
     </div>

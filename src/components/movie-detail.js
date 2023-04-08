@@ -43,22 +43,22 @@ function Properties({
 }
 
 function Detail({ movieDetail }) {
-  const genres = (movieDetail.genres?.map((item) => item.name) ?? []).join(', ');
+  const genres = (movieDetail.genres?.map((item) => item.name) ?? ['No Genre']).join(', ');
 
   return (
     <div className="absolute top-44 left-32 flex flex-row">
       <Image
         src={getImage(movieDetail.poster_path)}
-        alt={`Poster image of ${movieDetail.title}`}
+        alt={`Poster image of ${movieDetail.title ?? movieDetail.name}`}
         placeholder="blur"
         blurDataURL="/poster.png"
-        className="object-cover overflow-hidden w-80"
+        className="object-cover overflow-hidden w-80 min-w-[220px] max-w-[220px]"
         width={220}
         height={330}
       />
       <div className="ml-8 mt-5">
         <h2 className="font-medium text-2xl text-neutral-200">{formatYear(movieDetail.release_date)}</h2>
-        <h1 className="font-semibold text-4xl text-neutral-200 mt-1">{movieDetail.title}</h1>
+        <h1 className="font-semibold text-4xl text-neutral-200 mt-1">{movieDetail.title ?? movieDetail.name}</h1>
         <span className="font-medium text-neutral-200 mt-1">{genres}</span>
         <Properties {...movieDetail} />
         <div className="mt-12 w-1/2">
@@ -113,7 +113,9 @@ function ReviewCard({
   );
 }
 
-function MovieDetail({ movieDetail, reviews, recommendations }) {
+function MovieDetail({
+  movieDetail, reviews, recommendations, type,
+}) {
   return (
     <div className="bg-white">
       <Head>
@@ -146,7 +148,7 @@ function MovieDetail({ movieDetail, reviews, recommendations }) {
         </div>
         <div className="mt-14 py-12 px-32 bg-[#1e232b]">
           <h3 className="font-semibold text-white mb-8">RECOMMENDATIONS</h3>
-          <MovieGrid movies={recommendations} />
+          <MovieGrid movies={recommendations} type={type} />
         </div>
       </main>
     </div>

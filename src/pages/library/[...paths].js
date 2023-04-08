@@ -26,6 +26,7 @@ export default function Libraries({
             movieDetail={movieDetail}
             reviews={reviews}
             recommendations={recommendations}
+            type={type}
           />
         )
         : <BrowseLibraries movies={movies} type={type} />}

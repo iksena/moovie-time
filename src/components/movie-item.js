@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import format from 'date-fns/format';
 
-import { LIBRARY_GENRES, getImage } from '@/lib/tmdb';
+import { LIBRARY_GENRES, LIBRARY_TYPE, getImage } from '@/lib/tmdb';
 
 function ViewButton({ children, href }) {
   return (
@@ -20,6 +20,7 @@ function PosterHover({
   vote_average,
   genre,
   id,
+  type = LIBRARY_TYPE.MOVIE,
 }) {
   return (
     <div className="absolute inset-0 flex flex-col justify-around items-center bg-black/80">
@@ -34,14 +35,14 @@ function PosterHover({
         <span className="text-neutral-200 font-semibold text-2xl ml-2">{vote_average}</span>
       </div>
       <span className="text-neutral-200 font-semibold text-lg">{genre}</span>
-      <ViewButton href={`/library/movie/${id}`}>VIEW</ViewButton>
+      <ViewButton href={`/library/${type}/${id}`}>VIEW</ViewButton>
     </div>
   );
 }
 
 function MovieItem(props) {
   const {
-    poster_path, vote_average, title, release_date, genre_ids,
+    poster_path, vote_average, title, release_date, genre_ids, name,
   } = props;
   const [hover, setHover] = useState(false);
   const genre = Object.values(LIBRARY_GENRES).find(
@@ -70,7 +71,7 @@ function MovieItem(props) {
           {hover && <PosterHover {...props} genre={genre} />}
         </div>
         <div className="flex flex-col whitespace-pre-wrap break-words">
-          <span className="text-base text-neutral-200 font-semibold mt-3">{title}</span>
+          <span className="text-base text-neutral-200 font-semibold mt-3">{title ?? name}</span>
           <span className="text-sm text-moovie-subtitle font-normal mt-1">{format(new Date(release_date || 0), 'yyyy')}</span>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import MovieItem from './movie-item';
 
-function MovieGrid({ movies, col }) {
+function MovieGrid({ movies, col, type }) {
   const movieList = movies?.results ?? [];
   const colGridStyles = {
     4: 'grid-cols-4 gap-x-5',
@@ -9,7 +9,7 @@ function MovieGrid({ movies, col }) {
 
   return (
     <div className={`grid ${colGridStyles[col] ?? ''} gap-y-8`}>
-      {movieList.map((movie) => <MovieItem key={movie.title} {...movie} />)}
+      {movieList.map((movie) => <MovieItem key={movie.title} type={type} {...movie} />)}
     </div>
   );
 }

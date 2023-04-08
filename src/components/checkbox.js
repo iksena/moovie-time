@@ -4,7 +4,7 @@ function Checkbox({ children, isChecked, onCheck }) {
       <label className="flex flex-row items-center text-neutral-200 justify-between" htmlFor={`checkbox-${children}`}>
         {children}
         <input
-          className="h-4 w-4 rounded-sm border-2 border-white bg-white/20"
+          className="h-4 w-4 rounded-sm border-[1px] border-white accent-white/5"
           type="checkbox"
           id={`checkbox-${children}`}
           checked={isChecked}
