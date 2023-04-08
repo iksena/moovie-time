@@ -27,7 +27,7 @@ function FilterLibrary() {
   };
 
   return (
-    <div className="rounded-lg bg-neutral-800">
+    <div className="rounded-lg bg-gradient-to-b from-[#0E1723] to-[#1E232A]">
       <div className="text-neutral-200 font-semibold text-base text-left p-4">Sort Result By</div>
       <div className="border-[1px] border-white/5 w-full" />
       <div className="p-4">
