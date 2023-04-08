@@ -29,7 +29,7 @@ function DiscoverList({ movies }) {
           <SortLabel href={`/?sortBy=${MOVIE_LIST.DATE_DESC}`}>Release Date</SortLabel>
         </div>
       </div>
-      <MovieGrid movies={movies} />
+      <MovieGrid movies={movies?.results ?? []} />
     </div>
   );
 }

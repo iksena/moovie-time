@@ -72,7 +72,7 @@ function MovieItem(props) {
         </div>
         <div className="flex flex-col whitespace-pre-wrap break-words">
           <span className="text-base text-neutral-200 font-semibold mt-3">{title ?? name}</span>
-          <span className="text-sm text-moovie-subtitle font-normal mt-1">{formatYear(release_date || first_air_date)}</span>
+          <span className="text-sm text-moovie-subtitle font-normal mt-1">{formatYear((release_date || first_air_date) || 0)}</span>
         </div>
       </div>
     </div>

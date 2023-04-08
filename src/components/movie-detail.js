@@ -57,7 +57,7 @@ function Detail({ movieDetail }) {
         height={330}
       />
       <div className="ml-8 mt-5">
-        <h2 className="font-medium text-2xl text-neutral-200">{formatYear(movieDetail.release_date || movieDetail.first_air_date)}</h2>
+        <h2 className="font-medium text-2xl text-neutral-200">{formatYear((movieDetail.release_date || movieDetail.first_air_date) || 0)}</h2>
         <h1 className="font-semibold text-4xl text-neutral-200 mt-1">{movieDetail.title ?? movieDetail.name}</h1>
         <span className="font-medium text-neutral-200 mt-1">{genres}</span>
         <Properties {...movieDetail} />
@@ -119,7 +119,7 @@ function MovieDetail({
   return (
     <div className="bg-white">
       <Head>
-        <title>{`${movieDetail.title} - Moovie Time Perqara`}</title>
+        <title>{`${movieDetail.title || movieDetail.name} - Moovie Time Perqara`}</title>
         <meta name="description" content={`See detail of ${movieDetail.title} at Moovie Time Perqara`} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -148,7 +148,7 @@ function MovieDetail({
         </div>
         <div className="mt-14 py-12 px-32 bg-[#1e232b]">
           <h3 className="font-semibold text-white mb-8">RECOMMENDATIONS</h3>
-          <MovieGrid movies={recommendations} type={type} />
+          <MovieGrid movies={recommendations?.results ?? []} type={type} />
         </div>
       </main>
     </div>

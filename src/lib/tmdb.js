@@ -93,20 +93,22 @@ export const LIBRARY_GENRES = {
   },
 };
 
-export const getLibraries = async (
+export const getLibraries = async ({
   page = 1,
+  baseUrl = constants.TMDB_BASE_URL,
+  apiKey = constants.TMDB_API_KEY,
   sortBy = MOVIE_LIST.POPULAR_DESC,
   type = LIBRARY_TYPE.MOVIE,
   withGenres = '',
-) => {
+}) => {
   const params = new URLSearchParams({
-    api_key: constants.TMDB_API_KEY,
+    api_key: apiKey,
     sort_by: sortBy,
     page,
     language: 'en-US',
     with_genres: withGenres,
   });
-  const url = `${constants.TMDB_BASE_URL}/discover/${type}?${params}`;
+  const url = `${baseUrl}/discover/${type}?${params}`;
   const response = await fetcher(url);
 
   return response;

@@ -77,8 +77,8 @@ export async function getServerSideProps({ query }) {
     };
   }
 
-  const genreString = constructGenreString(genre, type);
-  const movies = await getLibraries(1, sortBy, type, genreString);
+  const withGenres = constructGenreString(genre, type);
+  const movies = await getLibraries({ sortBy, type, withGenres });
 
   return {
     props: {

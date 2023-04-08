@@ -38,7 +38,7 @@ export async function getServerSideProps({ query }) {
   const { sortBy } = query;
   const baseUrl = constants.TMDB_BASE_URL;
   const apiKey = constants.TMDB_API_KEY;
-  const movies = await getLibraries(1, sortBy);
+  const movies = await getLibraries({ sortBy });
 
   return {
     props: {
