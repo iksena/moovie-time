@@ -49,7 +49,7 @@ function SearchInput() {
       <Image
         className="absolute top-2 left-2 cursor-pointer"
         src="/movie.svg"
-        alt="search"
+        alt="movie"
         width={24}
         height={24}
         onClick={handleSubmitSearch}

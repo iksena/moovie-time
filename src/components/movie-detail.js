@@ -21,7 +21,14 @@ function Properties({
 }) {
   return (
     <div className="flex flex-row mt-8">
-      <h1 className="font-semibold text-4xl text-neutral-200 mr-3">{vote_average}</h1>
+      <Image
+        src="/star.svg"
+        alt="star"
+        width={32}
+        height={32}
+        priority
+      />
+      <h1 className="font-semibold text-4xl text-neutral-200 mx-3">{vote_average}</h1>
       <DetailText title="USER SCORE" value={`${vote_count} VOTES`} />
       <div className="border-white/20 h-10 mr-8 border-r-[1px]" />
       <DetailText title="STATUS" value={status?.toUpperCase() ?? ''} />
@@ -87,8 +94,16 @@ function ReviewCard({
             <span className="text-[#666666]">{format(new Date(updated_at), 'MMMM dd, yyyy')}</span>
           </div>
         </div>
-        <div className="rounded-lg bg-[#C4C4C447]/20 p-2">
-          <h1 className="font-semibold text-4xl">{author_details.rating}</h1>
+        <div className="rounded-lg bg-[#C4C4C447]/20 p-2 flex flex-row">
+          <Image
+            className="self-start"
+            src="/star.svg"
+            alt="star"
+            width={17}
+            height={17}
+            priority
+          />
+          <h1 className="font-semibold text-4xl">{author_details.rating || 'N/A'}</h1>
         </div>
       </div>
       <span className="text-sm text-ellipsis italic mt-6">
