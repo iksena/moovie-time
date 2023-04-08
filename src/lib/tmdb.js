@@ -112,6 +112,52 @@ export const getLibraries = async (
   return response;
 };
 
+export const getLibraryDetail = async (
+  id,
+  type = LIBRARY_TYPE.MOVIE,
+) => {
+  const params = new URLSearchParams({
+    api_key: constants.TMDB_API_KEY,
+    language: 'en-US',
+  });
+  const url = `${constants.TMDB_BASE_URL}/${type}/${id}?${params}`;
+  const response = await fetcher(url);
+
+  return response;
+};
+
+export const getLibraryReviews = async (
+  id,
+  type = LIBRARY_TYPE.MOVIE,
+  page = 1,
+) => {
+  const params = new URLSearchParams({
+    api_key: constants.TMDB_API_KEY,
+    language: 'en-US',
+    page,
+  });
+  const url = `${constants.TMDB_BASE_URL}/${type}/${id}/reviews?${params}`;
+  const response = await fetcher(url);
+
+  return response?.results ?? [];
+};
+
+export const getLibraryRecommendations = async (
+  id,
+  type = LIBRARY_TYPE.MOVIE,
+  page = 1,
+) => {
+  const params = new URLSearchParams({
+    api_key: constants.TMDB_API_KEY,
+    language: 'en-US',
+    page,
+  });
+  const url = `${constants.TMDB_BASE_URL}/${type}/${id}/recommendations?${params}`;
+  const response = await fetcher(url);
+
+  return response?.results ?? [];
+};
+
 export const searchLibraries = async ({
   query,
   baseUrl = constants.TMDB_BASE_URL,
@@ -131,7 +177,7 @@ export const searchLibraries = async ({
   return movies;
 };
 
-export const getImage = (path, width = 500) => {
+export const getImage = (path, size = 'w500') => {
   if (!path) return '/poster.png';
-  return `https://image.tmdb.org/t/p/w${width}/${path}`;
+  return `https://image.tmdb.org/t/p/${size}/${path}`;
 };

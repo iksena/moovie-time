@@ -1,39 +1,22 @@
 import Head from 'next/head';
 import { useMemo } from 'react';
 
-import { LIBRARY_GENRES, LIBRARY_TYPE, getLibraries } from '@/lib/tmdb';
+import {
+  getLibraries,
+  getLibraryDetail,
+  getLibraryRecommendations,
+  getLibraryReviews,
+} from '@/lib/tmdb';
+import { constructGenreString } from '@/lib/utils';
 import constants from '@/lib/constants';
 import TopMenu from '@/components/top-menu';
 import Footer from '@/components/footer';
 import TMDBContext from '@/contexts/tmdb-context';
-import MovieGrid from '@/components/movie-grid';
-import FilterLibrary from '@/components/filter-library';
-import { castArray } from '@/lib/utils';
-
-function Title({ type }) {
-  const title = type === 'tv' ? 'TVs' : 'Movies';
-
-  return (
-    <div className="px-32 pt-20">
-      <div className="w-32 h-1 top-0 mb-3 bg-moovie-red" />
-      <div className="flex flex-row justify-between mb-12 mt-0.5">
-        <span className="font-semibold text-4xl text-neutral-200">{title}</span>
-      </div>
-    </div>
-  );
-}
-
-function Body({ movies }) {
-  return (
-    <div className="flex flex-row px-32 relative">
-      <div className="sticky left-0 top-0 basis-1/4 mr-8"><FilterLibrary /></div>
-      <div className="basis-3/4"><MovieGrid movies={movies} col={4} /></div>
-    </div>
-  );
-}
+import BrowseLibraries from '@/components/browse-libraries';
+import MovieDetail from '@/components/movie-detail';
 
 export default function Libraries({
-  type, baseUrl, apiKey, movies,
+  type, baseUrl, apiKey, movies, id, movieDetail, reviews, recommendations,
 }) {
   const tmdb = useMemo(() => ({ apiKey, baseUrl }), [baseUrl, apiKey]);
 
@@ -45,42 +28,63 @@ export default function Libraries({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="bg-moovie-background">
-        <TopMenu baseUrl={baseUrl} />
-        <main className="relative">
-          <div className="absolute top-0 bg-white/5 h-80 w-full" />
-          <Title type={type} />
-          <Body movies={movies} />
-        </main>
-        <footer>
-          <Footer />
-        </footer>
-      </div>
+      {id
+        ? (
+          <MovieDetail
+            movieDetail={movieDetail}
+            reviews={reviews}
+            recommendations={recommendations}
+          />
+        )
+        : <BrowseLibraries movies={movies} type={type} />}
+      <footer className="bg-moovie-background">
+        <Footer />
+      </footer>
     </TMDBContext.Provider>
   );
 }
 
-const _constructGenreString = (genreQuery, type) => {
-  if (genreQuery) {
-    const currentGenres = castArray(genreQuery);
-    return currentGenres.map(
-      (genreValue) => (
-        (type === LIBRARY_TYPE.TV
-          ? LIBRARY_GENRES[genreValue]?.tvId
-          : LIBRARY_GENRES[genreValue]?.movieId) ?? ''
-      ),
-    ).join(',');
-  }
-  return '';
+const _fetchLibraryDetail = async (id, type) => {
+  const [movieDetail, reviews, recommendations] = await Promise.all([
+    getLibraryDetail(id, type),
+    getLibraryReviews(id, type),
+    getLibraryRecommendations(id, type),
+  ]);
+
+  return {
+    movieDetail,
+    reviews,
+    recommendations,
+  };
 };
 
 export async function getServerSideProps({ query }) {
-  const { paths, sortBy = '', genre } = query;
+  const { paths, sortBy, genre } = query;
   const [type, id = false] = paths;
   const baseUrl = constants.TMDB_BASE_URL;
   const apiKey = constants.TMDB_API_KEY;
 
-  const genreString = _constructGenreString(genre, type);
+  if (id) {
+    const {
+      movieDetail,
+      reviews,
+      recommendations,
+    } = await _fetchLibraryDetail(id, type);
+
+    return {
+      props: {
+        movieDetail,
+        reviews,
+        recommendations,
+        baseUrl,
+        apiKey,
+        type,
+        id,
+      },
+    };
+  }
+
+  const genreString = constructGenreString(genre, type);
   const movies = await getLibraries(1, sortBy, type, genreString);
 
   return {
@@ -89,8 +93,6 @@ export async function getServerSideProps({ query }) {
       baseUrl,
       apiKey,
       type,
-      id,
-      sortBy,
     },
   };
 }

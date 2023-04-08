@@ -1,0 +1,125 @@
+import Image from 'next/image';
+import { getImage } from '@/lib/tmdb';
+import { formatUsd, formatYear } from '@/lib/utils';
+import { format } from 'date-fns';
+import MovieGrid from './movie-grid';
+import TopMenu from './top-menu';
+
+function DetailText({ title, value }) {
+  return (
+    <div className="flex flex-col mr-8">
+      <span className="font-medium text-xs text-white/50 mb-1">{title}</span>
+      <span className="font-medium text-xs text-white">{value}</span>
+    </div>
+  );
+}
+
+function Properties({
+  vote_average, vote_count, status, spoken_languages, budget, production_companies,
+}) {
+  return (
+    <div className="flex flex-row mt-8">
+      <h1 className="font-semibold text-4xl text-neutral-200 mr-3">{vote_average}</h1>
+      <DetailText title="USER SCORE" value={`${vote_count} VOTES`} />
+      <div className="border-white/20 h-10 mr-8 border-r-[1px]" />
+      <DetailText title="STATUS" value={status?.toUpperCase() ?? ''} />
+      <div className="border-white/20 h-10 mr-8 border-r-[1px]" />
+      <DetailText title="LANGUAGE" value={spoken_languages?.[0]?.english_name?.toUpperCase() ?? 'UNKNOWN'} />
+      <div className="border-white/20 h-10 mr-8 border-r-[1px]" />
+      <DetailText title="BUDGET" value={formatUsd(budget)} />
+      <div className="border-white/20 h-10 mr-8 border-r-[1px]" />
+      <DetailText title="PRODUCTION" value={production_companies?.[0]?.name ?? 'UNKNOWN'} />
+    </div>
+  );
+}
+
+function Detail({ movieDetail }) {
+  const genres = (movieDetail.genres?.map((item) => item.name) ?? []).join(', ');
+
+  return (
+    <div className="absolute top-44 left-32 flex flex-row">
+      <Image
+        src={getImage(movieDetail.poster_path)}
+        alt={`Poster image of ${movieDetail.title}`}
+        placeholder="blur"
+        blurDataURL="/poster.png"
+        className="object-cover overflow-hidden w-80"
+        width={220}
+        height={330}
+      />
+      <div className="ml-8 mt-5">
+        <h2 className="font-medium text-2xl text-neutral-200">{formatYear(movieDetail.release_date)}</h2>
+        <h1 className="font-semibold text-4xl text-neutral-200 mt-1">{movieDetail.title}</h1>
+        <span className="font-medium text-neutral-200 mt-1">{genres}</span>
+        <Properties {...movieDetail} />
+        <div className="mt-12 w-1/2">
+          <h3 className="font-semibold text-sm text-moovie-red">OVERVIEW</h3>
+          <span className="font-normal text-sm mt-2 whitespace-pre-wrap break-words">{movieDetail.overview}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ReviewCard({
+  author_details, author, updated_at, content,
+}) {
+  const name = author_details.name || author;
+  return (
+    <div className="bg-[#F9F9F9] p-5 rounded-2xl">
+      <div className="flex flex-row items-center">
+        <div className="rounded-full mr-6">
+          <Image
+            src={getImage(author_details.avatar_path, 'w200')}
+            alt={`Profile image of ${name}`}
+            placeholder="blur"
+            blurDataURL="/profile.png"
+            className="object-cover w-12 h-12"
+            width={48}
+            height={48}
+          />
+        </div>
+        <div className="flex flex-col">
+          <span className="font-bold text-[#1E232A]">{name}</span>
+          <span className="text-[#666666]">{format(new Date(updated_at), 'MMMM dd, yyyy')}</span>
+        </div>
+        <div className="justify-end items-end rounded-lg bg-[##C4C4C447] p-2">
+          <h1 className="font-semibold text-4xl">{author_details.rating}</h1>
+        </div>
+      </div>
+      <span className="text-sm italic mt-6">
+        {content}
+      </span>
+    </div>
+  );
+}
+
+function MovieDetail({ movieDetail, reviews, recommendations }) {
+  return (
+    <div className="bg-white">
+      <div className="fixed z-50 w-full top-0"><TopMenu /></div>
+      <main className="relative">
+        <div className="relative overflow-hidden w-full h-[45vh]">
+          <Image
+            src={getImage(movieDetail.backdrop_path, 'original')}
+            alt={`Backdrop image of ${movieDetail.title}`}
+            placeholder="blur"
+            blurDataURL="/backdrop.png"
+            className="object-cover w-full h-[45vh]"
+            width={1440}
+            height={500}
+          />
+          <div className="absolute bottom-0 w-full h-16 bg-black/50" />
+          <div className="absolute inset-0 w-full h-full bg-black/60" />
+        </div>
+        <Detail movieDetail={movieDetail} />
+        <div className="px-32 mt-48">
+          <h3 className="font-semibold text-sm text-moovie-red">REVIEWS</h3>
+          {reviews.map((review) => <ReviewCard key={review.id} {...review} />)}
+        </div>
+      </main>
+    </div>
+  );
+}
+
+export default MovieDetail;
