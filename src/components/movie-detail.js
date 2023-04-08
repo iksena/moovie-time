@@ -1,7 +1,9 @@
 import Image from 'next/image';
+import { format } from 'date-fns';
+import Head from 'next/head';
+
 import { getImage } from '@/lib/tmdb';
 import { formatUsd, formatYear } from '@/lib/utils';
-import { format } from 'date-fns';
 import MovieGrid from './movie-grid';
 import TopMenu from './top-menu';
 
@@ -54,7 +56,7 @@ function Detail({ movieDetail }) {
         <Properties {...movieDetail} />
         <div className="mt-12 w-1/2">
           <h3 className="font-semibold text-sm text-moovie-red">OVERVIEW</h3>
-          <span className="font-normal text-sm mt-2 whitespace-pre-wrap break-words">{movieDetail.overview}</span>
+          <span className="font-normal text-sm mt-2 whitespace-pre-wrap break-words text-ellipsis line-clamp-3">{movieDetail.overview}</span>
         </div>
       </div>
     </div>
@@ -99,6 +101,12 @@ function ReviewCard({
 function MovieDetail({ movieDetail, reviews, recommendations }) {
   return (
     <div className="bg-white">
+      <Head>
+        <title>{`${movieDetail.title} - Moovie Time Perqara`}</title>
+        <meta name="description" content={`See detail of ${movieDetail.title} at Moovie Time Perqara`} />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <div className="fixed z-50 w-full top-0"><TopMenu /></div>
       <main className="relative">
         <div className="relative overflow-hidden w-full h-[45vh]">
