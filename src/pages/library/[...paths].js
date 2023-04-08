@@ -9,7 +9,6 @@ import {
 } from '@/lib/tmdb';
 import { constructGenreString } from '@/lib/utils';
 import constants from '@/lib/constants';
-import TopMenu from '@/components/top-menu';
 import Footer from '@/components/footer';
 import TMDBContext from '@/contexts/tmdb-context';
 import BrowseLibraries from '@/components/browse-libraries';

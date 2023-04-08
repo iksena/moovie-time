@@ -67,27 +67,29 @@ function ReviewCard({
   const name = author_details.name || author;
   return (
     <div className="bg-[#F9F9F9] p-5 rounded-2xl">
-      <div className="flex flex-row items-center">
-        <div className="rounded-full mr-6">
-          <Image
-            src={getImage(author_details.avatar_path, 'w200')}
-            alt={`Profile image of ${name}`}
-            placeholder="blur"
-            blurDataURL="/profile.png"
-            className="object-cover w-12 h-12"
-            width={48}
-            height={48}
-          />
+      <div className="flex flex-row justify-between">
+        <div className="flex flex-row items-center">
+          <div className="rounded-full mr-6">
+            <Image
+              src={getImage(author_details.avatar_path, 'w200')}
+              alt={name}
+              placeholder="blur"
+              blurDataURL="/profile.png"
+              className="rounded-full object-cover w-12 h-12"
+              width={48}
+              height={48}
+            />
+          </div>
+          <div className="flex flex-col">
+            <span className="font-bold text-[#1E232A]">{name}</span>
+            <span className="text-[#666666]">{format(new Date(updated_at), 'MMMM dd, yyyy')}</span>
+          </div>
         </div>
-        <div className="flex flex-col">
-          <span className="font-bold text-[#1E232A]">{name}</span>
-          <span className="text-[#666666]">{format(new Date(updated_at), 'MMMM dd, yyyy')}</span>
-        </div>
-        <div className="justify-end items-end rounded-lg bg-[##C4C4C447] p-2">
+        <div className="rounded-lg bg-[#C4C4C447]/20 p-2">
           <h1 className="font-semibold text-4xl">{author_details.rating}</h1>
         </div>
       </div>
-      <span className="text-sm italic mt-6">
+      <span className="text-sm text-ellipsis italic mt-6">
         {content}
       </span>
     </div>
@@ -114,8 +116,14 @@ function MovieDetail({ movieDetail, reviews, recommendations }) {
         </div>
         <Detail movieDetail={movieDetail} />
         <div className="px-32 mt-48">
-          <h3 className="font-semibold text-sm text-moovie-red">REVIEWS</h3>
-          {reviews.map((review) => <ReviewCard key={review.id} {...review} />)}
+          <h3 className="font-semibold text-sm text-moovie-red mb-6">REVIEWS</h3>
+          <div className="grid grid-cols-2 gap-8">
+            {reviews.map((review) => <ReviewCard key={review.id} {...review} />)}
+          </div>
+        </div>
+        <div className="mt-14 py-12 px-32 bg-[#1e232b]">
+          <h3 className="font-semibold text-white mb-8">RECOMMENDATIONS</h3>
+          <MovieGrid movies={recommendations} />
         </div>
       </main>
     </div>

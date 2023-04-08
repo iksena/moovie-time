@@ -155,7 +155,7 @@ export const getLibraryRecommendations = async (
   const url = `${constants.TMDB_BASE_URL}/${type}/${id}/recommendations?${params}`;
   const response = await fetcher(url);
 
-  return response?.results ?? [];
+  return response;
 };
 
 export const searchLibraries = async ({
